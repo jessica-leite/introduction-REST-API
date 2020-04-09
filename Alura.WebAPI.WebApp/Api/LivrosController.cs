@@ -6,7 +6,7 @@ using System.Linq;
 namespace Alura.WebAPI.WebApp.Api
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class LivrosController : ControllerBase
     {
         private readonly IRepository<Livro> _repo;
@@ -24,7 +24,7 @@ namespace Alura.WebAPI.WebApp.Api
             {
                 return NotFound();
             }
-            return Ok(model.ToModel());
+            return Ok(model.ToApi());
         }
 
         [HttpGet("{id}/capa")]
@@ -50,7 +50,7 @@ namespace Alura.WebAPI.WebApp.Api
                 _repo.Incluir(livro);
 
                 var uri = Url.Action("Recuperar", new { id = livro.Id }); //new {id = livro.Id}
-                return Created(uri, livro); //201
+                return Created(uri, livro.ToApi()); //201
             }
             return BadRequest();
         }
